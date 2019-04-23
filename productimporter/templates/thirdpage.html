@@ -1,0 +1,39 @@
+{% extends 'base_template.html'%}
+{%block content%}
+<style>
+        thead {color:green;}
+        tbody {color:blue;}
+        tfoot {color:red;}
+        
+        table, th, td {
+          border: 1px solid black;
+        }
+</style>
+<p> Show the files here</p>
+<form method="GET" enctype="multipart/form-data">
+        {% csrf_token %}
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>SKU</th>
+            <th>description</th>
+            <th>flag</th>
+        </tr>
+        </thead>
+        {% for item in products%}
+        <tbody>
+            <tr>
+                <td>{{item.id}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.sku}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.flag}}</td>
+            </tr>
+        </tbody>
+        {%endfor%}
+    </table>        
+    
+</form>
+{%endblock%}

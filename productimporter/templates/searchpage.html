@@ -1,0 +1,117 @@
+{% extends 'base_template.html'%}
+{%block content%}
+
+<title> Vue js backed search </title>
+<div id="app">
+    <h1>[[title]]</h1>
+    <br><hr>
+        <div>
+            <h1>Search here</h1>
+            <label for='search-id'>Search</label>
+            <input type="text" v-model="search_query">
+            <button type="submit" @click="getsearchGQL">Search</button>
+            <p>searched value is : [[searched_results]]</p>
+        </div>
+        <div>
+            <h1>Filter here</h1>
+            <table>
+                <tr>
+                    <td>name</td>
+                    <td>sku</td>
+                    <td>description</td>
+                </tr>
+                <tr>
+                    <td><input type="text" v-model="name"></td>
+                    <td><input type="text" v-model="sku"></td>
+                    <td><input type="text" v-model="description"></td>
+                    </tr>
+            </table>
+            <button type="submit" @click="getfilterGQL">Filter</button>
+            <p>Filtered value is: [[filtered_results]]</p>
+        </div>
+    
+</div>
+<script src="https://unpkg.com/vue"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+        new Vue({
+            el:'#app',
+            delimiters: ['[[', ']]'],
+            data:{
+                title: 'Vue js is running successfully',
+                query: "query{products(first:3){ name  id  sku  description  }}",
+                query_template: "query{products",
+                query_search_template: "query{products(search:",
+                query_find_template:'query{products(find:',
+                fields_template:'){name sku description}}',
+                url:"/graphql/?",
+                search_query:'',
+                searched_results:"",
+                filtered_results:"",
+                name:'',
+                sku:'',
+                description:'',
+                first:'',
+                last:'',
+                limit:'',
+                search:'',
+                
+            },
+            methods:{
+                    queryGQL: function(query)
+                    {
+                        // this is query  post request using axios
+                        try {
+                            let strr = [];
+                            axios
+                            .post(this.url, 
+                            {   
+                                query:query
+                            }
+                            )
+                            .then(function(response){
+                                console.log(response);
+                                strr.push(response.data);
+                            })
+                            .catch((err)=>(console.log(err)))
+                            return strr;
+                        } catch (error) {
+                            console.log(error)
+                        }
+                    },
+                    getsearchGQL: function()
+                    {
+                        //this is a sample grapql query to search for keyword Bry
+                        // query{
+                        //     products(search:"Bry"){
+                        //         id
+                        //         name
+                        //         sku
+                        //     }
+                        //     }
+                        var output={};
+                        var find=this.query_search_template+'"'+this.search_query+'"'+this.fields_template
+                        output=this.queryGQL(find)
+                        this.searched_results=(output)
+                    },
+                    getfilterGQL: function()
+                    {
+                        // this is a sample for filtering
+                        // query{
+                        //     products(find:"{'name':'Bryce Jones','sku':"XYZ"}")
+                        //     {
+                        //         name
+                        //         id
+                        //         sku
+                        //         description
+                        //     }
+                        //     }
+                        var name="'name':'"+this.name+"'"
+                        var sku="'sku':'"+this.sku+"'"
+                        var description="'description':'"+this.description+"'"
+                        var find=this.query_find_template.concat('"{').concat(name).concat(",").concat(sku).concat(",").concat(description).concat('}"')+this.fields_template
+                        this.filtered_results=this.queryGQL(find)
+                    },
+        }})
+</script>
+{% endblock %}

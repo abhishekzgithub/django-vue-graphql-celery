@@ -1,0 +1,9 @@
+{% extends 'base_template.html'%}
+{%block content%}
+<p> Upload the files here</p>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" value="Submit">Upload</button>
+</form>
+{%endblock%}

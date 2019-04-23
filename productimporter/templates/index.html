@@ -1,0 +1,33 @@
+{% extends 'base_template.html'%}
+{%block content%}
+<h1>Urls are</h1>
+<ul>
+    <li>
+        <a href={% url 'productform' %}> Productform </a>
+    </li>
+    <li>
+        <a href={% url 'upload_files_view' %}> upload_files_view </a>
+    </li>
+    <li>
+        <a href={% url 'show_files_view' %}> show_files_view </a>
+    </li>
+    <li>
+        <a href={% url 'drop_product_data_view' %}> drop_product_data_view </a>
+    </li>
+    <li>
+        <a href={% url 'search_product' %}> search_product </a>
+    </li>
+    <li>
+        <a href={% url 'get_csv_view' %}> get_csv_view </a>
+    </li>
+    <li>
+        <a href={% url 'searchpage' %}> searchpage </a>
+    </li>
+</ul>
+
+
+
+
+
+
+{%endblock%}

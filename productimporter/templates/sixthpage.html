@@ -1,0 +1,6 @@
+{% extends 'base_template.html'%}
+{%block content%}
+<h1>View Product form</h1>
+{% csrf_token %}
+{{data | safe}}    
+{%endblock%}
