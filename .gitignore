@@ -105,3 +105,6 @@ venv.bak/
 *.bak
 *.dat
 *.dir
+*.csv
+*.xlsx
+migrations/
