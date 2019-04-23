@@ -11,3 +11,25 @@ Steps:
 6. python manage.py makemigrations && python manage.py migrate && python manage.py runserver
 7. open the localhost:8000 on your browser
 8. Look for the urls
+
+9. Sample graphql queries which may be used via http://127.0.0.1:8000/graphql/:
+    for filtering->
+    """
+    query{
+    products(find:"{'name':'Bryce Jones'}")
+    {
+        name
+        sku
+        description
+    }
+    }
+    """
+    for searching->
+    """
+    query{
+        products(search:"Bry"){
+            name
+            sku
+        }
+        }
+    """
